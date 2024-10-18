@@ -1,5 +1,6 @@
 import "./App.css";
 import CharacterComponent from "./components/CharacterComponent";
+import { GlobalContextProvider } from "./context/GlobalContext";
 
 function App() {
   return (
@@ -8,7 +9,9 @@ function App() {
         <h1>React Coding Exercise-Krunal Parmar</h1>
       </header>
       <section className="App-section">
-        <CharacterComponent />
+        <GlobalContextProvider>
+          <CharacterComponent />
+        </GlobalContextProvider>
       </section>
     </div>
   );
