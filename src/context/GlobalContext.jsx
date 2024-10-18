@@ -78,6 +78,19 @@ export const GlobalContextProvider = ({ children }) => {
 
   // console.log("Modifiers:", modifiers);
 
+  // handling new character
+  const addCharacter = () => {
+    setCharacters((prevCharacters) => [
+      ...prevCharacters,
+      { id: characters.length + 1 },
+    ]);
+
+    // setting initial states for new character
+    setAttributes((prev) => [...prev, initialAttributes]);
+    setSkills((prev) => [...prev, initialSkills]);
+    setClasses((prev) => [...prev, initialClasses]);
+  };
+
   // function to select a class for a character
   const handleSelectClass = (characterIdx, classData) => {
     setClasses((prevState) => {
@@ -101,6 +114,7 @@ export const GlobalContextProvider = ({ children }) => {
         handleUpdateAttribute,
         handleUpdateSkill,
         handleSelectClass,
+        addCharacter,
       }}
     >
       {children}
