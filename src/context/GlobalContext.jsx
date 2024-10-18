@@ -14,10 +14,18 @@ const initialSkills = SKILL_LIST.reduce((acc, skill) => {
   return acc;
 }, {});
 
+// initialising classes with null
+const initialClasses = Object.keys(CLASS_LIST).reduce((acc, className) => {
+  acc[className] = null;
+  return acc;
+}, {});
+
 export const GlobalContextProvider = ({ children }) => {
   const [attributes, setAttributes] = useState([initialAttributes]);
   const [skills, setSkills] = useState([initialSkills]);
   const [characters, setCharacters] = useState([{ id: 1 }]);
+  const [classes, setClasses] = useState([initialClasses]);
+  // console.log("Classes:", classes);
 
   // console.log("Attributes:", attributes);
   // console.log("Skills:", skills);
@@ -69,6 +77,19 @@ export const GlobalContextProvider = ({ children }) => {
   const modifiers = calculateModifiers(attributes);
 
   // console.log("Modifiers:", modifiers);
+
+  // function to select a class for a character
+  const handleSelectClass = (characterIdx, classData) => {
+    setClasses((prevState) => {
+      const updatedClasses = [...prevState];
+      updatedClasses[characterIdx] = {
+        ...updatedClasses[characterIdx],
+        ...classData,
+      };
+      return updatedClasses;
+    });
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -76,8 +97,10 @@ export const GlobalContextProvider = ({ children }) => {
         attributes,
         modifiers,
         skills,
+        classes,
         handleUpdateAttribute,
         handleUpdateSkill,
+        handleSelectClass,
       }}
     >
       {children}
