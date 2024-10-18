@@ -15,18 +15,10 @@ const initialSkills = SKILL_LIST.reduce((acc, skill) => {
   return acc;
 }, {});
 
-// initialising classes with null
-const initialClasses = Object.keys(CLASS_LIST).reduce((acc, className) => {
-  acc[className] = null;
-  return acc;
-}, {});
-
 export const GlobalContextProvider = ({ children }) => {
   const [attributes, setAttributes] = useState([initialAttributes]);
   const [skills, setSkills] = useState([initialSkills]);
   const [characters, setCharacters] = useState([{ id: 1 }]);
-  const [classes, setClasses] = useState([initialClasses]);
-  // console.log("Classes:", classes);
 
   // console.log("Attributes:", attributes);
   // console.log("Skills:", skills);
@@ -38,9 +30,9 @@ export const GlobalContextProvider = ({ children }) => {
         (modifierAccumulator, attribute) => {
           // modifier = Math.floor((singleAttributeValue - 10) / 2)
           modifierAccumulator[attribute] = Math.floor(
-            (characterAttributes[attribute] - 10) / 2
+            ((characterAttributes[attribute] || 0) - 10) / 2
           );
-          return modifierAccumulator;
+          return modifierAccumulator || 0;
         },
         {}
       )
@@ -89,19 +81,6 @@ export const GlobalContextProvider = ({ children }) => {
     // setting initial states for new character
     setAttributes((prev) => [...prev, initialAttributes]);
     setSkills((prev) => [...prev, initialSkills]);
-    setClasses((prev) => [...prev, initialClasses]);
-  };
-
-  // function to select a class for a character
-  const handleSelectClass = (characterIdx, classData) => {
-    setClasses((prevState) => {
-      const updatedClasses = [...prevState];
-      updatedClasses[characterIdx] = {
-        ...updatedClasses[characterIdx],
-        ...classData,
-      };
-      return updatedClasses;
-    });
   };
 
   useEffect(() => {
@@ -121,9 +100,6 @@ export const GlobalContextProvider = ({ children }) => {
         if (data.skills) {
           setSkills(data.skills || initialSkills);
         }
-        if (data.classes) {
-          setSkills(data.classes || initialClasses);
-        }
       } catch (error) {
         console.error("Error loading characters:", error);
       }
@@ -138,7 +114,6 @@ export const GlobalContextProvider = ({ children }) => {
       characters,
       attributes,
       skills,
-      classes,
     };
     const response = await axios.post(
       "https://recruiting.verylongdomaintotestwith.ca/api/{Krunal-97}/character",
@@ -161,10 +136,8 @@ export const GlobalContextProvider = ({ children }) => {
         attributes,
         modifiers,
         skills,
-        classes,
         handleUpdateAttribute,
         handleUpdateSkill,
-        handleSelectClass,
         addCharacter,
         saveCharacters,
       }}

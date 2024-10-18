@@ -1,22 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { GlobalContext } from "../context/GlobalContext";
 import { CLASS_LIST } from "../consts";
 
 const ClassListComponent = ({ characterIdx }) => {
-  const { classes, attributes, handleSelectClass } = useContext(GlobalContext);
+  const { attributes } = useContext(GlobalContext);
+  const [selectedClass, setSelectedClass] = useState("");
+
   const characterAttributes = attributes[characterIdx] || {};
-  const selectedClasses = classes[characterIdx] || {};
 
   const isClassSelected = (classTitle) => {
-    return selectedClasses[classTitle] === classTitle;
+    return selectedClass === classTitle;
+  };
+
+  const handleSelectClass = (classTitle) => {
+    setSelectedClass(classTitle);
   };
 
   // toggleing classes on selection
   const toggleClassSelection = (classTitle) => {
     if (isClassSelected(classTitle)) {
-      handleSelectClass(characterIdx, { [classTitle]: null });
+      handleSelectClass("");
     } else {
-      handleSelectClass(characterIdx, { [classTitle]: classTitle });
+      handleSelectClass(classTitle);
     }
   };
 
@@ -50,7 +55,7 @@ const ClassListComponent = ({ characterIdx }) => {
             </p>
 
             {selected && (
-              <div>
+              <div style={{ border: "1px solid grey", borderRadius: "4px" }}>
                 <p>Minimum Requirements:</p>
                 <div>
                   {Object.entries(requirements).map(([attribute, minVal]) => (

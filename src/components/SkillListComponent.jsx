@@ -8,11 +8,11 @@ const SkillListComponent = ({ characterIdx }) => {
   const characterModifiers = modifiers[characterIdx];
 
   // find total skill points
-  const intelligenceModifier = characterModifiers.Intelligence;
+  const intelligenceModifier = characterModifiers.Intelligence || 0;
   const totalSkillPoints = 10 + 4 * intelligenceModifier;
 
   const usedSkillPoints = Object.values(characterSkills).reduce(
-    (acc, curr) => acc + curr,
+    (acc, curr) => acc + curr || 0,
     0
   );
 
@@ -50,8 +50,8 @@ const SkillListComponent = ({ characterIdx }) => {
         Points: {remainingSkillPoints}
       </h5>
       {SKILL_LIST.map((skill) => {
-        const modifier = characterModifiers[skill.attributeModifier]; //  modifier for a respective skill
-        const skillValue = characterSkills[skill.name] + modifier; // skill value = points + modifier
+        const modifier = characterModifiers[skill.attributeModifier] || 0; //  modifier for a respective skill
+        const skillValue = characterSkills[skill.name] || 0 + modifier; // skill value = points + modifier
         return (
           <div key={skill.name}>
             <p>
