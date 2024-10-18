@@ -36,6 +36,36 @@
   color: #61dafb;
 }
 
+/* Custom CSS */
+
+.Main-buttons {
+  border: 1vh solid white;
+  border-radius: 1vh;
+  padding: 0.5vh;
+  margin: 1vh;
+  cursor: pointer;
+}
+.Character-container {
+  border: 0.1vh solid white;
+  border-radius: 1vh;
+  margin: 5vh 10vh;
+  box-shadow: 1px 0px 10px white;
+}
+.Component-Section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.Component-container {
+  border: 0.1vh solid white;
+  border-radius: 1vh;
+  margin: 2vh 5vh;
+  padding: 2vh;
+  box-shadow: 1px 0px 10px white;
+}
+
+/* ----End Custom CSS----- */
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

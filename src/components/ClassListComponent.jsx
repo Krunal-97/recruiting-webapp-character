@@ -31,7 +31,7 @@ const ClassListComponent = ({ characterIdx }) => {
   };
 
   return (
-    <div>
+    <div className="Component-container">
       <h1>Classes</h1>
       {Object.entries(CLASS_LIST).map(([classTitle, requirements]) => {
         const isQualified = meetsRequirements(requirements);

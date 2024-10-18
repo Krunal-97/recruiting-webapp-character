@@ -1,5 +1,6 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { ATTRIBUTE_LIST, SKILL_LIST, CLASS_LIST } from "../consts";
+import axios from "axios";
 
 // ------ Context Provider: --------
 export const GlobalContext = createContext();
@@ -103,6 +104,56 @@ export const GlobalContextProvider = ({ children }) => {
     });
   };
 
+  useEffect(() => {
+    const loadCharacters = async () => {
+      try {
+        const response = await axios.get(
+          "https://recruiting.verylongdomaintotestwith.ca/api/{Krunal-97}/character"
+        );
+        const data = response?.data?.body;
+
+        if (data.characters) {
+          setCharacters(data.characters || [{ id: 1 }]);
+        }
+        if (data.attributes) {
+          setAttributes(data.attributes || initialAttributes);
+        }
+        if (data.skills) {
+          setSkills(data.skills || initialSkills);
+        }
+        if (data.classes) {
+          setSkills(data.classes || initialClasses);
+        }
+      } catch (error) {
+        console.error("Error loading characters:", error);
+      }
+    };
+
+    loadCharacters();
+  }, []);
+
+  // saving characters on button click
+  const saveCharacters = async () => {
+    const data = {
+      characters,
+      attributes,
+      skills,
+      classes,
+    };
+    const response = await axios.post(
+      "https://recruiting.verylongdomaintotestwith.ca/api/{Krunal-97}/character",
+      data,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+      }
+    );
+    if (response.data.statusCode === 200) {
+      alert("Data saved successfully.");
+    }
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -115,6 +166,7 @@ export const GlobalContextProvider = ({ children }) => {
         handleUpdateSkill,
         handleSelectClass,
         addCharacter,
+        saveCharacters,
       }}
     >
       {children}

@@ -40,7 +40,7 @@ const AttributeListComponent = ({ characterIdx }) => {
   const characterModifiers = modifiers[characterIdx];
 
   return (
-    <div>
+    <div className="Component-container">
       <h1>Attributes</h1>
       {Object.keys(characterAttributes).map((attribute) => (
         <div key={attribute}>

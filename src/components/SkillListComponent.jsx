@@ -43,7 +43,7 @@ const SkillListComponent = ({ characterIdx }) => {
   const remainingSkillPoints = totalSkillPoints - usedSkillPoints;
 
   return (
-    <div>
+    <div className="Component-container">
       <h1>Skills</h1>
       <h5>
         Total Skill Points Available: {totalSkillPoints} | Remaining Skill
